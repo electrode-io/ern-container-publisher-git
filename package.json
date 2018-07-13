@@ -1,0 +1,57 @@
+{
+  "name": "ern-container-publisher-git",
+  "version": "1.0.0",
+  "description": "Electrode Native Git Container Publisher",
+  "main": "./dist/index.js",
+  "homepage": "http://www.electrode.io",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/electrode-io/ern-container-publisher-git.git"
+  },
+  "bugs": {
+    "url": "https://github.com/electrode-io/ern-container-publisher-git/issues"
+  },
+  "keywords": ["electrode", "ern", "react-native", "ern-container-publisher"],
+  "contributors": [
+    {
+      "name": "Benoit Lemaire",
+      "email": "blemaire@walmartlabs.com"
+    },
+    {
+      "name": "Bharath Marulasiddappa",
+      "email": "BMarulasiddappa@walmartlabs.com"
+    },
+    {
+      "name": "Deepu Ganapathiyadan",
+      "email": "DGanapathiyadan@walmartlabs.com"
+    },
+    {
+      "name": "Krunal Shah",
+      "email": "KShah1@walmartlabs.com"
+    }
+  ],
+  "license": "Apache-2.0",
+  "dependencies": {
+    "ern-container-publisher": "0.21.0",
+    "ern-core": "0.21.0"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.1.4",
+    "@types/mocha": "^5.2.4",
+    "@types/node": "^9.6.7",
+    "chai": "^4.1.2",
+    "mocha": "^5.2.0",
+    "prettier": "^1.13.7",
+    "shelljs": "^0.8.2",
+    "ts-node": "^7.0.0",
+    "typescript": "^2.9.2"
+  },
+  "scripts": {
+    "test": "mocha -r ts-node/register test/*.js",
+    "build": "tsc",
+    "prepublish": "yarn build"
+  },
+  "engines": {
+    "node": ">=6"
+  }
+}
