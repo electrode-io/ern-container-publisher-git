@@ -6,8 +6,6 @@ The target git remote repository must exist. It will not be created by this publ
 
 For example, For initial publication to GitHub, a repository should be created in GitHub beforehand.
 
-**This publisher currently always publish to the master branch of the remote repository.**
-
 ## Usage
 
 ### **With `ern publish-container` CLI command**
@@ -26,10 +24,14 @@ Defaults to the Electrode Native default Container Generation path (`~/.ern/cont
 - `--containerVersion/-v` : Version of the Container to publish.  
 Default to `1.0.0`
 
+- `branch` : The name of the branch to publish to.  
+Please note that the branch needs to be created manually before hand in the remote repo.
+Defaults to `master`
+
  The `ern publish-container` CLI command can be used as follow to manually publish a Container using the git publisher :
 
 ```bash
-$ ern publish-container --containerPath [pathToContainer] -p git -u [gitRepoUrl] -v [containerVersion] ---platform [android|ios]
+$ ern publish-container --containerPath [pathToContainer] -p git -u [gitRepoUrl] -v [containerVersion] ---platform [android|ios] -e '{"branch":"[branch_name]"}'
 ```
 
 ### **With Cauldron**
@@ -39,10 +41,16 @@ $ ern publish-container --containerPath [pathToContainer] -p git -u [gitRepoUrl]
 - `--publisher/-p` : `git`
 - `--url/-u` : Url of the remote git repository (SSH or HTTPS) to publish to
 
+**Optional**
+
+- `branch` : The name of the branch to publish to.  
+Please note that the branch needs to be created manually before hand in the remote repo.
+Defaults to `master`
+
 To automatically publish Cauldron generated Containers of a target native application and platform, the `ern cauldron add publisher` command can be used as follow :
 
 ```bash
-$ ern cauldron add publisher -p git -u [gitRepoUrl]
+$ ern cauldron add publisher -p git -u [gitRepoUrl] -e '{"branch":"[branch_name]"}'
 ```
 
 This will result in the following publisher entry in Cauldron :
@@ -50,7 +58,10 @@ This will result in the following publisher entry in Cauldron :
 ```json
 {
   "name": "git",
-  "url": "[gitRepoUrl]"
+  "url": "[gitRepoUrl]",
+  "extra": {
+    "branch": "[branch_name]"
+  }
 }
 ```
 
@@ -67,7 +78,12 @@ publisher.publish({
   /* Version of the Container. Will result in a git tag. */
   containerVersion,
   /* Remote git repository url (ssh or https) */
-  url
+  url,
+  /* Extra config specific to this publisher */
+  extra?: {
+    /* Name of the branch to publish to */
+    branch?: string
+  }
 })
 ```
 
