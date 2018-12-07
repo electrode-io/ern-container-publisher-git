@@ -36,6 +36,11 @@ export default class GitPublisher implements ContainerPublisher {
       const git = gitCli()
       log.debug(`Cloning git repository(${url}) to ${workingGitDir}`)
       await gitCli().clone(url, '.')
+      const branchResult = await git.branch({}) 
+      const branches = branchResult.all
+      if (!branches.includes(branch)) {
+        await git.checkoutLocalBranch(branch)
+      }
       await git.checkout(branch)
       shell.rm('-rf', `${workingGitDir}/*`)
       shell.cp('-Rf', path.join(containerPath, '{.*,*}'), workingGitDir)

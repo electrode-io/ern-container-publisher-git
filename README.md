@@ -6,6 +6,10 @@ The target git remote repository must exist. It will not be created by this publ
 
 For example, For initial publication to GitHub, a repository should be created in GitHub beforehand.
 
+When using this publisher, you might notice that a `raw` branch is created along the default `master` one. This branch is used by Electrode Native to store untransformed containers (raw generated containers before any transformer has been applied). Also, `raw-[version]` tags are created for each container version published through this publisher, in addition to the `[version]` tag.
+
+Having access to untransformed container versions can be useful if you need to debug or alter some transformers, but it is mostly used by Electrode Native itself to perform some Container generation optimizations such as only regenerating the JS bundle if possible. In that case, Electrode Native needs access to the pre-transformed/raw Container because it still has to run transformers, but cannot run them over an already transformed Container.
+
 ## Usage
 
 ### **With `ern publish-container` CLI command**
@@ -25,8 +29,7 @@ Defaults to the Electrode Native default Container Generation path (`~/.ern/cont
 Default to `1.0.0`
 
 - `branch` : The name of the branch to publish to.  
-Please note that the branch needs to be created manually before hand in the remote repo.
-Defaults to `master`
+Default to `master`
 
  The `ern publish-container` CLI command can be used as follow to manually publish a Container using the git publisher :
 
