@@ -42,6 +42,7 @@ export default class GitPublisher implements ContainerPublisher {
         await git.checkoutLocalBranch(branch)
       }
       await git.checkout(branch)
+      await git.pull('origin', branch)
       shell.rm('-rf', `${workingGitDir}/*`)
       shell.cp('-Rf', path.join(containerPath, '{.*,*}'), workingGitDir)
       await git.add('./*')
