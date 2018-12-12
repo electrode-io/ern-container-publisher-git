@@ -21,11 +21,15 @@ export default class GitPublisher implements ContainerPublisher {
     containerVersion: string
     url?: string,
     extra?: {
-      branch?: string
+      branch?: string,
+      subdir?: string,
+      allowVersionOverwrite?: boolean
     }
   }) {
     const workingGitDir = createTmpDir()
     const branch = (extra && extra.branch) || 'master'
+    const subdir = (extra && extra.subdir) || ''
+    const allowVersionOverwrite = (extra && extra.allowVersionOverwrite) || false
 
     if (!url) {
       throw new Error('url is required')
@@ -44,16 +48,26 @@ export default class GitPublisher implements ContainerPublisher {
         await git.checkout(branch)
         await git.pull('origin', branch)
       }
-      shell.rm('-rf', `${workingGitDir}/*`)
-      shell.cp('-Rf', path.join(containerPath, '{.*,*}'), workingGitDir)
-      await git.add('./*')
+      const projectDir = path.join(workingGitDir, subdir);
+      shell.rm('-rf', path.join(projectDir, '*'))
+      if (subdir) {
+        // Normally that wouldn't be needed as the -f in cp should create the folder if it does not exist
+        // but that is not working somehow in shelljs
+        shell.mkdir(projectDir)
+      }
+      shell.cp('-Rf', path.join(containerPath, '{.*,*}'), projectDir)
+      await git.add(subdir ? subdir : './*')
       await git.commit(`Container v${containerVersion}`)
-      await git.tag([`v${containerVersion}`])
+      const tagsOptions = allowVersionOverwrite ? ['-f'] : []
+      await git.tag([`v${containerVersion}`, ...tagsOptions])
       await git.push('origin', branch)
-      await git.pushTags('origin')
+      await git.push(['origin', '--tags', ...tagsOptions])
       log.info('[=== Completed publication of the Container ===]')
       log.info(`[Publication url : ${url}]`)
       log.info(`[Git Branch: ${branch}]`)
+      if (subdir) {
+        log.info(`[Subdirectory : ${subdir}]`)
+      }
       log.info(`[Git Tag: v${containerVersion}]`)
     } finally {
       shell.popd()
