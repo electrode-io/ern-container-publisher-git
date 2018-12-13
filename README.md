@@ -37,6 +37,18 @@ Default to `master`
 $ ern publish-container --containerPath [pathToContainer] -p git -u [gitRepoUrl] -v [containerVersion] ---platform [android|ios] -e '{"branch":"[branch_name]"}'
 ```
 
+- `subdir` : The name of the subdirectory you want to publish to
+
+```bash
+$ ern publish-container --containerPath [pathToContainer] -p git -u [gitRepoUrl] -v [containerVersion] ---platform [android|ios] -e '{"subdir":"[subdirectory]"}'
+```
+
+- `allowVersionOverwrite` : A boolean flag to allow overwriting the version (tag). Defaults to false.
+
+```bash
+$ ern publish-container --containerPath [pathToContainer] -p git -u [gitRepoUrl] -v [containerVersion] ---platform [android|ios] -e '{"allowVersionOverwrite": true}'
+```
+
 ### **With Cauldron**
 
 **Required**
