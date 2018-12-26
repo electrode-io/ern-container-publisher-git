@@ -62,6 +62,11 @@ $ ern publish-container --containerPath [pathToContainer] -p git -u [gitRepoUrl]
 Please note that the branch needs to be created manually before hand in the remote repo.
 Defaults to `master`
 
+- `subdir` : The name of the subdirectory you want to publish to
+
+- `allowVersionOverwrite` : A boolean flag to allow overwriting the version (tag).
+Defaults to false.
+
 To automatically publish Cauldron generated Containers of a target native application and platform, the `ern cauldron add publisher` command can be used as follow :
 
 ```bash
@@ -75,7 +80,9 @@ This will result in the following publisher entry in Cauldron :
   "name": "git",
   "url": "[gitRepoUrl]",
   "extra": {
-    "branch": "[branch_name]"
+    "branch": "[branch_name]",
+    "subdir": "[subdirpath]",
+    "allowVersionOverwrite": "[allowVersionOverwrite]"
   }
 }
 ```
@@ -98,6 +105,10 @@ publisher.publish({
   extra?: {
     /* Name of the branch to publish to */
     branch?: string
+    /* Optional subdirectory to store the Container in */
+    subdir?: string
+    /* Allow version (tag) overwrite */
+    allowVersionOverwrite?: boolean
   }
 })
 ```
