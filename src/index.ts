@@ -1,5 +1,6 @@
 import { ContainerPublisher } from 'ern-container-publisher'
 import { createTmpDir, gitCli, shell, log, NativePlatform } from 'ern-core'
+import fs from 'fs'
 import path from 'path'
 
 export default class GitPublisher implements ContainerPublisher {
@@ -15,11 +16,13 @@ export default class GitPublisher implements ContainerPublisher {
     containerPath,
     containerVersion,
     url,
-    extra
+    platform,
+    extra,
   }: {
     containerPath: string
     containerVersion: string
     url?: string,
+    platform: string,
     extra?: {
       branch?: string,
       subdir?: string,
@@ -56,6 +59,9 @@ export default class GitPublisher implements ContainerPublisher {
         shell.mkdir(projectDir)
       }
       shell.cp('-Rf', path.join(containerPath, '{.*,*}'), projectDir)
+      if (platform === 'ios') {
+        this.patchContainerInfoPlistWithVersion({containerPath: projectDir, containerVersion})
+      }
       await git.add(subdir ? subdir : './*')
       await git.commit(`Container v${containerVersion}`)
       const tagsOptions = allowVersionOverwrite ? ['-f'] : []
@@ -71,6 +77,28 @@ export default class GitPublisher implements ContainerPublisher {
       log.info(`[Git Tag: v${containerVersion}]`)
     } finally {
       shell.popd()
+    }
+  }
+
+  /**
+   * [iOS Specific]
+   * Patch ElectrodeContainer Info.plist to update CFBundleShortVersionString 
+   * with the Container version being published
+   */
+  public patchContainerInfoPlistWithVersion({ 
+    containerPath, 
+    containerVersion
+  } : { 
+    containerPath: string, 
+    containerVersion: string
+  }) {
+    const infoPlistPath = path.join(containerPath, 'ElectrodeContainer', 'Info.plist')
+    if (fs.existsSync(infoPlistPath)) {
+      const infoPlist = fs.readFileSync(infoPlistPath).toString()
+      const patchedInfoPlist = infoPlist.replace(
+        '<key>CFBundleShortVersionString</key>\n\t<string>1.0</string>', 
+        `<key>CFBundleShortVersionString</key>\n\t<string>${containerVersion}</string>`)
+      fs.writeFileSync(infoPlistPath, patchedInfoPlist) 
     }
   }
 }
