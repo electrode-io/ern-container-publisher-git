@@ -96,7 +96,7 @@ export default class GitPublisher implements ContainerPublisher {
     if (fs.existsSync(infoPlistPath)) {
       const infoPlist = fs.readFileSync(infoPlistPath).toString()
       const patchedInfoPlist = infoPlist.replace(
-        '<key>CFBundleShortVersionString</key>\n\t<string>1.0</string>', 
+        new RegExp('<key>CFBundleShortVersionString<\/key>\\n\\t<string>.+<\/string>'), 
         `<key>CFBundleShortVersionString</key>\n\t<string>${containerVersion}</string>`)
       fs.writeFileSync(infoPlistPath, patchedInfoPlist) 
     }
