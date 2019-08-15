@@ -1,10 +1,10 @@
 # Electrode Native Git Container Publisher
 
-This publisher can be used to publish Android and iOS Electrode Native Containers to a remote git repository. The git repository provider should not matter (GitHub, BitBucket, TFS ...).
+This publisher can be used to publish Android and iOS Electrode Native Containers to a remote Git repository. The Git repository provider should not matter (GitHub, BitBucket, TFS ...).
 
-The target git remote repository must exist. It will not be created by this publisher.
+The target Git remote repository must exist. It will not be created by this publisher.
 
-For example, For initial publication to GitHub, a repository should be created in GitHub beforehand.
+For example, for initial publication to GitHub, a repository should be created in GitHub beforehand.
 
 When using this publisher, you might notice that a `raw` branch is created along the default `master` one. This branch is used by Electrode Native to store untransformed containers (raw generated containers before any transformer has been applied). Also, `raw-[version]` tags are created for each container version published through this publisher, in addition to the `[version]` tag.
 
@@ -14,51 +14,51 @@ Having access to untransformed container versions can be useful if you need to d
 
 ### **With `ern publish-container` CLI command**
 
-**Required**
+#### Required
 
-- `--url/-u` : Url of the remote git repository (SSH or HTTPS) to publish to
+- `--url/-u` : URL of the remote Git repository (SSH or HTTPS) to publish to
 - `--publisher/-p` : `git`
 - `--platform` : `android` | `ios`
 
-**Optional**
+#### Optional
 
-- `--containerPath` : Path to the Container to publish.  
+- `--containerPath` : Path to the Container to publish.
 Defaults to the Electrode Native default Container Generation path (`~/.ern/containergen/out/[platform]` if not changed through config)
 
-- `--containerVersion/-v` : Version of the Container to publish.  
+- `--containerVersion/-v` : Version of the Container to publish.
 Default to `1.0.0`
 
-- `branch` : The name of the branch to publish to.  
+- `branch` : The name of the branch to publish to.
 Default to `master`
 
- The `ern publish-container` CLI command can be used as follow to manually publish a Container using the git publisher :
+The `ern publish-container` CLI command can be used as follow to manually publish a Container using the git publisher :
 
-```bash
-$ ern publish-container --containerPath [pathToContainer] -p git -u [gitRepoUrl] -v [containerVersion] ---platform [android|ios] -e '{"branch":"[branch_name]"}'
+```sh
+ern publish-container --containerPath [pathToContainer] -p git -u [gitRepoUrl] -v [containerVersion] ---platform [android|ios] -e '{"branch":"[branch_name]"}'
 ```
 
 - `subdir` : The name of the subdirectory you want to publish to. **Only supported in Electrode Native >= 0.28.0**
 
-```bash
-$ ern publish-container --containerPath [pathToContainer] -p git -u [gitRepoUrl] -v [containerVersion] ---platform [android|ios] -e '{"subdir":"[subdirectory]"}'
+```sh
+ern publish-container --containerPath [pathToContainer] -p git -u [gitRepoUrl] -v [containerVersion] ---platform [android|ios] -e '{"subdir":"[subdirectory]"}'
 ```
 
 - `allowVersionOverwrite` : A boolean flag to allow overwriting the version (tag). Defaults to false.
 
-```bash
-$ ern publish-container --containerPath [pathToContainer] -p git -u [gitRepoUrl] -v [containerVersion] ---platform [android|ios] -e '{"allowVersionOverwrite": true}'
+```sh
+ern publish-container --containerPath [pathToContainer] -p git -u [gitRepoUrl] -v [containerVersion] ---platform [android|ios] -e '{"allowVersionOverwrite": true}'
 ```
 
-### **With Cauldron**
+### With Cauldron
 
-**Required**
+#### Required
 
 - `--publisher/-p` : `git`
-- `--url/-u` : Url of the remote git repository (SSH or HTTPS) to publish to
+- `--url/-u` : URL of the remote Git repository (SSH or HTTPS) to publish to
 
-**Optional**
+#### Optional
 
-- `branch` : The name of the branch to publish to.  
+- `branch` : The name of the branch to publish to.
 Please note that the branch needs to be created manually before hand in the remote repo.
 Defaults to `master`
 
@@ -69,8 +69,8 @@ Defaults to false.
 
 To automatically publish Cauldron generated Containers of a target native application and platform, the `ern cauldron add publisher` command can be used as follow :
 
-```bash
-$ ern cauldron add publisher -p git -u [gitRepoUrl] -e '{"branch":"[branch_name]"}'
+```sh
+ern cauldron add publisher -p git -u [gitRepoUrl] -e '{"branch":"[branch_name]"}'
 ```
 
 This will result in the following publisher entry in Cauldron :
@@ -87,9 +87,9 @@ This will result in the following publisher entry in Cauldron :
 }
 ```
 
-This is only needed once. Once the configuration for the publisher is stored in Cauldron, any new Cauldron generated Container will be publihsed to git.
+This is only needed once. Once the configuration for the publisher is stored in Cauldron, any new Cauldron generated Container will be published to Git.
 
-### **Programatically**
+### Programmatically
 
 ```js
 import GitPublisher from 'ern-container-publisher-git'
@@ -97,9 +97,9 @@ const publisher = new GitPublisher()
 publisher.publish({
   /* Local file system path to the Container */
   containerPath,
-  /* Version of the Container. Will result in a git tag. */
+  /* Version of the Container. Will result in a Git tag. */
   containerVersion,
-  /* Remote git repository url (ssh or https) */
+  /* Remote Git repository url (ssh or https) */
   url,
   /* Extra config specific to this publisher */
   extra?: {
@@ -112,4 +112,3 @@ publisher.publish({
   }
 })
 ```
-
