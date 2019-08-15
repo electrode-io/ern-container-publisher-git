@@ -41,9 +41,9 @@ export default class GitPublisher implements ContainerPublisher {
     try {
       shell.pushd(workingGitDir)
       const git = gitCli()
-      log.debug(`Cloning git repository(${url}) to ${workingGitDir}`)
+      log.debug(`Cloning Git repository(${url}) to ${workingGitDir}`)
       await gitCli().clone(url, '.')
-      const branchResult = await git.branch(['-a']) 
+      const branchResult = await git.branch(['-a'])
       const branches = branchResult.all
       if (!branches.includes(`remotes/origin/${branch}`)) {
         await git.checkoutLocalBranch(branch)
@@ -82,23 +82,23 @@ export default class GitPublisher implements ContainerPublisher {
 
   /**
    * [iOS Specific]
-   * Patch ElectrodeContainer Info.plist to update CFBundleShortVersionString 
+   * Patch ElectrodeContainer Info.plist to update CFBundleShortVersionString
    * with the Container version being published
    */
-  public patchContainerInfoPlistWithVersion({ 
-    containerPath, 
+  public patchContainerInfoPlistWithVersion({
+    containerPath,
     containerVersion
-  } : { 
-    containerPath: string, 
+  } : {
+    containerPath: string,
     containerVersion: string
   }) {
     const infoPlistPath = path.join(containerPath, 'ElectrodeContainer', 'Info.plist')
     if (fs.existsSync(infoPlistPath)) {
       const infoPlist = fs.readFileSync(infoPlistPath).toString()
       const patchedInfoPlist = infoPlist.replace(
-        new RegExp('<key>CFBundleShortVersionString<\/key>\\n\\t<string>.+<\/string>'), 
+        new RegExp('<key>CFBundleShortVersionString<\/key>\\n\\t<string>.+<\/string>'),
         `<key>CFBundleShortVersionString</key>\n\t<string>${containerVersion.replace('-raw', '')}</string>`)
-      fs.writeFileSync(infoPlistPath, patchedInfoPlist) 
+      fs.writeFileSync(infoPlistPath, patchedInfoPlist)
     }
   }
 }
