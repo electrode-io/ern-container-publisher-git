@@ -67,7 +67,7 @@ export default class GitPublisher implements ContainerPublisher {
       const tagsOptions = allowVersionOverwrite ? ['-f'] : []
       await git.tag([`v${containerVersion}`, ...tagsOptions])
       await git.push('origin', branch)
-      await git.push(['origin', '--tags', ...tagsOptions])
+      await git.raw(['push', 'origin', '--tags', ...tagsOptions])
       log.info('[=== Completed publication of the Container ===]')
       log.info(`[Publication url : ${url}]`)
       log.info(`[Git Branch: ${branch}]`)

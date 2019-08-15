@@ -11,7 +11,13 @@
   "bugs": {
     "url": "https://github.com/electrode-io/ern-container-publisher-git/issues"
   },
-  "keywords": ["electrode", "ern", "react-native", "ern-container-publisher"],
+  "keywords": [
+    "electrode",
+    "electrode-native",
+    "ern",
+    "react-native",
+    "ern-container-publisher"
+  ],
   "contributors": [
     {
       "name": "Benoit Lemaire",
@@ -26,25 +32,29 @@
       "email": "DGanapathiyadan@walmartlabs.com"
     },
     {
+      "name": "Frieder Bluemle",
+      "email": "frieder.bluemle@walmartlabs.com"
+    },
+    {
       "name": "Krunal Shah",
       "email": "KShah1@walmartlabs.com"
     }
   ],
   "license": "Apache-2.0",
   "dependencies": {
-    "ern-container-publisher": "0.21.0",
-    "ern-core": "0.26.0"
+    "ern-container-publisher": "0.37.2",
+    "ern-core": "0.37.2"
   },
   "devDependencies": {
-    "@types/chai": "^4.1.4",
-    "@types/mocha": "^5.2.4",
-    "@types/node": "^9.6.7",
+    "@types/chai": "^4.2.0",
+    "@types/mocha": "^5.2.7",
+    "@types/node": "^12.7.2",
     "chai": "^4.1.2",
-    "mocha": "^5.2.0",
-    "prettier": "^1.13.7",
+    "mocha": "^6.2.0",
+    "prettier": "^1.18.2",
     "shelljs": "^0.8.2",
-    "ts-node": "^7.0.0",
-    "typescript": "^2.9.2"
+    "ts-node": "^8.3.0",
+    "typescript": "^3.5.3"
   },
   "scripts": {
     "test": "mocha -r ts-node/register test/*.js",
