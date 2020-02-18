@@ -1,5 +1,7 @@
 # Electrode Native Git Container Publisher
 
+[![ci][1]][2]
+
 This publisher can be used to publish Android and iOS Electrode Native Containers to a remote Git repository. The Git repository provider should not matter (GitHub, BitBucket, TFS ...).
 
 The target Git remote repository must exist. It will not be created by this publisher.
@@ -112,3 +114,6 @@ publisher.publish({
   }
 })
 ```
+
+[1]: https://github.com/electrode-io/ern-container-publisher-git/workflows/ci/badge.svg
+[2]: https://github.com/electrode-io/ern-container-publisher-git/actions
