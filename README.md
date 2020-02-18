@@ -12,7 +12,7 @@ Having access to untransformed container versions can be useful if you need to d
 
 ## Usage
 
-### **With `ern publish-container` CLI command**
+### With `ern publish-container` CLI command
 
 #### Required
 
@@ -22,13 +22,13 @@ Having access to untransformed container versions can be useful if you need to d
 
 #### Optional
 
-- `--containerPath` : Path to the Container to publish.
+- `--containerPath` : Path to the Container to publish.\
 Defaults to the Electrode Native default Container Generation path (`~/.ern/containergen/out/[platform]` if not changed through config)
 
-- `--containerVersion/-v` : Version of the Container to publish.
+- `--containerVersion/-v` : Version of the Container to publish.\
 Default to `1.0.0`
 
-- `branch` : The name of the branch to publish to.
+- `branch` : The name of the branch to publish to.\
 Default to `master`
 
 The `ern publish-container` CLI command can be used as follow to manually publish a Container using the git publisher :
@@ -58,16 +58,16 @@ ern publish-container --containerPath [pathToContainer] -p git -u [gitRepoUrl] -
 
 #### Optional
 
-- `branch` : The name of the branch to publish to.
-Please note that the branch needs to be created manually before hand in the remote repo.
-Defaults to `master`
+- `branch` : The name of the branch to publish to.\
+Please note that the branch needs to be created manually before hand in the remote repo. Defaults to `master`
 
-- `subdir` : The name of the subdirectory you want to publish to. **Only supported in Electrode Native >= 0.28.0**
+- `subdir` : The name of the subdirectory you want to publish to.\
+**Only supported in Electrode Native >= 0.28.0**
 
-- `allowVersionOverwrite` : A boolean flag to allow overwriting the version (tag).
+- `allowVersionOverwrite` : A boolean flag to allow overwriting the version (tag).\
 Defaults to false.
 
-To automatically publish Cauldron generated Containers of a target native application and platform, the `ern cauldron add publisher` command can be used as follow :
+To automatically publish Cauldron generated Containers of a target native application and platform, the `ern cauldron add publisher` command can be used as follow:
 
 ```sh
 ern cauldron add publisher -p git -u [gitRepoUrl] -e '{"branch":"[branch_name]"}'
