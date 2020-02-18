@@ -46,19 +46,19 @@
   ],
   "license": "Apache-2.0",
   "dependencies": {
-    "ern-container-publisher": "0.37.2",
-    "ern-core": "0.37.2"
+    "ern-container-publisher": "0.38.16",
+    "ern-core": "0.38.16"
   },
   "devDependencies": {
-    "@types/chai": "^4.2.0",
-    "@types/mocha": "^5.2.7",
-    "@types/node": "^12.7.2",
+    "@types/chai": "^4.2.9",
+    "@types/mocha": "^7.0.1",
+    "@types/node": "^13.7.2",
     "chai": "^4.1.2",
-    "mocha": "^6.2.0",
-    "prettier": "^1.18.2",
+    "mocha": "^7.0.1",
+    "prettier": "^1.19.1",
     "shelljs": "^0.8.2",
-    "ts-node": "^8.3.0",
-    "typescript": "^3.5.3"
+    "ts-node": "^8.6.2",
+    "typescript": "^3.7.5"
   },
   "scripts": {
     "test": "mocha -r ts-node/register test/*.js",
