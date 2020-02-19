@@ -41,16 +41,23 @@ export default class GitPublisher implements ContainerPublisher {
     try {
       shell.pushd(workingGitDir)
       const git = gitCli()
-      log.debug(`Cloning Git repository(${url}) to ${workingGitDir}`)
-      await gitCli().clone(url, '.')
-      const branchResult = await git.branch(['-a'])
-      const branches = branchResult.all
-      if (!branches.includes(`remotes/origin/${branch}`)) {
-        await git.checkoutLocalBranch(branch)
+
+      const re = new RegExp(`refs/heads/${branch}`)
+      const remoteHeads = await gitCli().raw(['ls-remote', '--heads', url])
+
+      log.debug(`workingGitDir: ${workingGitDir}`)
+
+      if (re.test(remoteHeads)) {
+        log.debug(`${branch} branch exists in remote. Reusing it.`)
+        log.debug(`Running 'git clone ${url} . --single-branch --branch ${branch} --depth 1`)
+        await gitCli().clone(url, '.', ['--single-branch', '--branch', branch, '--depth', '1'])
       } else {
-        await git.checkout(branch)
-        await git.pull('origin', branch)
+        log.debug(`${branch} branch does not exists in remote. Creating it.`)
+        log.debug(`Running 'git clone ${url} . --depth 1`)
+        await gitCli().clone(url, '.', ['--depth', '1'])
+        await git.checkoutLocalBranch(branch)
       }
+
       const projectDir = path.join(workingGitDir, subdir);
       shell.rm('-rf', path.join(projectDir, '*'))
       if (subdir) {
