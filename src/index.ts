@@ -3,6 +3,8 @@ import { createTmpDir, gitCli, shell, log, NativePlatform } from 'ern-core'
 import fs from 'fs'
 import path from 'path'
 
+const TOKEN_VAR: string = 'ERN_GIT_TOKEN';
+
 export default class GitPublisher implements ContainerPublisher {
   get name(): string {
     return 'git'
@@ -39,6 +41,10 @@ export default class GitPublisher implements ContainerPublisher {
     }
 
     try {
+      if (process.env[TOKEN_VAR] && !url.includes('@') && url.startsWith('https://')) {
+        url = url.substring(0, 8) + process.env[TOKEN_VAR] + '@' + url.substring(8);
+      }
+
       shell.pushd(workingGitDir)
       const git = gitCli()
 
